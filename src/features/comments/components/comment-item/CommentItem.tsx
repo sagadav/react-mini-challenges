@@ -9,7 +9,8 @@ export interface CommentItemProps {
   onReply?: (a: { id: number; text: string }) => void;
 }
 
-const MAX_DEPTH = 2;
+// from 0
+const MAX_DEPTH = 3;
 
 const CommentItem = ({
   comment,
@@ -56,7 +57,7 @@ const CommentItem = ({
             onReply={(args) =>
               replyHandler({
                 text: args.text,
-                id: depth > MAX_DEPTH - 1 ? comment.id : args.id,
+                id: depth >= MAX_DEPTH - 1 ? comment.id : args.id,
               })
             }
           />
