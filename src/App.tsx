@@ -1,13 +1,9 @@
-import Counter from '@/features/counter/Counter';
-import CommentSection from '@/features/comments/CommentSection';
+import { Outlet } from 'react-router-dom';
 
-// TODO: router
 function App() {
   return (
     <div className="App">
-      <div>
-        <CommentSection />
-      </div>
+      <Outlet />
     </div>
   );
 }
