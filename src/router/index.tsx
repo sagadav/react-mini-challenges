@@ -1,9 +1,11 @@
+import { createHashRouter } from 'react-router-dom';
 import App from '@/App';
 import Layout from '@/components/layout/Layout';
 import CommentsPage from '@/pages/Comments';
 import HomePage from '@/pages/Home';
+import ProductCardsPage from '@/pages/ProductCards';
 import TestPage from '@/pages/Test';
-import { createHashRouter } from 'react-router-dom';
+import { PAGES_MAP } from './paths';
 
 export const router = createHashRouter(
   [
@@ -12,7 +14,7 @@ export const router = createHashRouter(
       element: <App />,
       children: [
         {
-          path: '',
+          path: PAGES_MAP.home.path,
           element: <HomePage />,
         },
         {
@@ -20,12 +22,16 @@ export const router = createHashRouter(
           children: [
             {
               index: true,
-              path: 'comments',
+              path: PAGES_MAP.comments.path,
               element: <CommentsPage />,
             },
+            // {
+            //   path: PAGES_MAP.test,
+            //   element: <TestPage />,
+            // },
             {
-              path: 'test',
-              element: <TestPage />,
+              path: PAGES_MAP.productCards.path,
+              element: <ProductCardsPage />,
             },
           ],
         },
