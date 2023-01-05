@@ -1,9 +1,9 @@
 import { createHashRouter } from 'react-router-dom';
 import App from '@/App';
-import Layout from '@/components/layout/Layout';
-import CommentsPage from '@/pages/Comments';
-import HomePage from '@/pages/Home';
-import ProductCardsPage from '@/pages/ProductCards';
+import Layout from '@/components/layout/layout';
+import CommentsPage from '@/pages/comments';
+import HomePage from '@/pages/home';
+import ProductCardsPage from '@/pages/product-cards';
 import TestPage from '@/pages/Test';
 import { PAGES_MAP } from './paths';
 

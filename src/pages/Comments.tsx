@@ -1,4 +1,4 @@
-import CommentSection from '@/features/comments/CommentSection';
+import CommentSection from '@/features/comments/comment-section';
 
 function CommentsPage() {
   return (

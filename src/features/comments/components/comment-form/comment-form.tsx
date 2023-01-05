@@ -1,5 +1,5 @@
 import { ChangeEvent, useState } from 'react';
-import Textarea from '@/components/ui/textarea/Textarea';
+import Textarea from '@/components/ui/textarea/textarea';
 
 export interface CommentFormProps {
   onInput?: (a: { value: string }) => void;

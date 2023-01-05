@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { IComment } from '../../comments.types';
-import CommentForm from '../comment-form/CommentForm';
+import CommentForm from '../comment-form/comment-form';
 import styles from './styles.module.scss';
 
 export interface CommentItemProps {

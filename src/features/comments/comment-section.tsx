@@ -2,10 +2,10 @@ import { useState } from 'react';
 import { IComment } from './comments.types';
 import CommentForm, {
   CommentFormProps,
-} from './components/comment-form/CommentForm';
+} from './components/comment-form/comment-form';
 import CommentItem, {
   CommentItemProps,
-} from './components/comment-item/CommentItem';
+} from './components/comment-item/comment-item';
 
 /*
   Simple comment section. For simplicity, a local state is used

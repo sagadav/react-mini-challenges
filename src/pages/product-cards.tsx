@@ -1,4 +1,4 @@
-import ProductCards from '@/features/product-cards/ProductCards';
+import ProductCards from '@/features/product-cards/product-cards';
 
 function ProductCardsPage() {
   return (
