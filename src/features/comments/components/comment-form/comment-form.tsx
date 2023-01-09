@@ -1,18 +1,33 @@
 import { ChangeEvent, useState } from 'react';
 import Textarea from '@/components/ui/textarea/textarea';
+import styles from './comment-form.module.scss';
 
-export interface CommentFormProps {
-  onInput?: (a: { value: string }) => void;
+interface CommentFormProps {
   onSubmit?: (a: { value: string }) => void;
+  onClose?: () => void;
+  showCloseButton?: boolean;
 }
 
 const CommentForm = ({
   onSubmit = () => {},
+  onClose = () => {},
+  showCloseButton = false,
 }: CommentFormProps): JSX.Element => {
   const [isShowSuccessText, setIsShowSuccessText] = useState(false);
   const [input, setInput] = useState('');
+  const [isValid, setIsValid] = useState(true);
+
+  const inputHandler = (e: ChangeEvent<HTMLTextAreaElement>) => {
+    setInput(e.target.value);
+    setIsValid(true);
+  };
+
   const submitHandler = () => {
-    if (!input) return;
+    setIsValid(true);
+    if (!input) {
+      setIsValid(false);
+      return;
+    }
     onSubmit({ value: input });
     setInput('');
     setIsShowSuccessText(true);
@@ -23,16 +38,22 @@ const CommentForm = ({
 
   return (
     <div>
-      <Textarea
-        value={input}
-        onInput={(e: ChangeEvent<HTMLTextAreaElement>) =>
-          setInput(e.target.value)
-        }
-        placeholder={'Add a comment...'}
-      />
-      <button disabled={isShowSuccessText} onClick={submitHandler}>
-        {isShowSuccessText ? 'Sended!' : 'Send'}
-      </button>
+      <div className={styles.commentForm__inner}>
+        <Textarea
+          value={input}
+          onInput={inputHandler}
+          placeholder={'Add a comment...'}
+          error={!isValid}
+        />
+        <button
+          className={styles.commentForm__sendButton}
+          disabled={isShowSuccessText}
+          onClick={submitHandler}
+        >
+          {isShowSuccessText ? 'Sended!' : 'Send'}
+        </button>
+      </div>
+      {showCloseButton && <button onClick={() => onClose()}>Close</button>}
     </div>
   );
 };

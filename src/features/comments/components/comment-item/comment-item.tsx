@@ -1,12 +1,15 @@
-import { useState } from 'react';
-import { IComment } from '../../comments.types';
+import { useMemo, useState } from 'react';
+import clsx from 'clsx';
+import { Comment } from '../../comments.types';
 import CommentForm from '../comment-form/comment-form';
 import styles from './styles.module.scss';
+import { formatDate } from '@/utils/formatDate';
+import { useAppDispatch, useAppSelector } from '@/hooks/store';
+import { createReply } from '../../comments.slice';
 
-export interface CommentItemProps {
-  comment: IComment;
-  commentEntities?: { [key: number]: IComment }; // local state
-  onReply?: (a: { id: number; text: string }) => void;
+interface CommentItemProps {
+  comment: Comment;
+  parrentComment?: Comment;
 }
 
 // from 0
@@ -14,55 +17,80 @@ const MAX_DEPTH = 3;
 
 const CommentItem = ({
   comment,
-  commentEntities = {},
-  onReply = () => {},
+  parrentComment,
 }: CommentItemProps): JSX.Element => {
+  const dispatch = useAppDispatch();
+  const { id, text, date, depth = 0 } = comment;
+  const { entities: commentEntities } = useAppSelector(
+    (state) => state.comments
+  );
   const [isShowForm, setIsShowForm] = useState(false);
-  const { id, children, text, depth = 0 } = comment;
+  const [isShowReplies, setIsShowReplies] = useState(true);
+  const isMaxDepthComment = depth >= MAX_DEPTH;
+  const formattedDate = useMemo(() => {
+    return formatDate(new Date(date));
+  }, [date]);
 
   const replyHandler = ({ text, id }: { text: string; id: number }) => {
-    onReply({ text, id });
+    dispatch(
+      createReply({
+        id: isMaxDepthComment && parrentComment ? parrentComment.id : id,
+        text,
+      })
+    );
   };
-
   return (
     <div>
       <div className={styles.comment}>
         <div className={styles.commentTop}>
-          <div>User Data</div>
-          <div>date</div>
+          <div className={styles.commentTop__commentData}>
+            <div>username</div>
+            <div className={styles.commentTop__date}>{formattedDate}</div>
+          </div>
           <button
             className={styles.replyBtn}
             onClick={() => setIsShowForm(!isShowForm)}
           >
-            {isShowForm ? 'close' : 'reply'}
+            {isShowForm ? 'close form' : 'reply'}
           </button>
+          {comment.children.length !== 0 && !isMaxDepthComment && (
+            <button onClick={() => setIsShowReplies(!isShowReplies)}>
+              {isShowReplies
+                ? 'hide replies'
+                : `show ${comment.children.length} replies`}
+            </button>
+          )}
         </div>
-        <div>
+        <div className={styles.commentContent}>
           <p>{text}</p>
         </div>
-        {isShowForm && (
-          <div style={{ marginTop: '24px' }}>
+      </div>
+      {isShowForm && (
+        <div className={styles.comment}>
+          <div>
             <CommentForm
               onSubmit={({ value }) => replyHandler({ text: value, id })}
+              onClose={() => setIsShowForm(false)}
+              showCloseButton
             />
           </div>
-        )}
-      </div>
-      <div className={styles.replies}>
-        {children.map((id) => (
-          <CommentItem
-            key={id}
-            commentEntities={commentEntities}
-            comment={commentEntities[id]}
-            onReply={(args) =>
-              replyHandler({
-                text: args.text,
-                id: depth >= MAX_DEPTH - 1 ? comment.id : args.id,
-              })
-            }
-          />
-        ))}
-      </div>
+        </div>
+      )}
+      {isShowReplies && (
+        <div className={clsx(styles.replies)}>
+          {comment.children.map((id) => (
+            <CommentItem
+              key={id}
+              comment={commentEntities[id]}
+              parrentComment={comment}
+            />
+          ))}
+          <div
+            className={styles.replies__collapsingArea}
+            onClick={() => setIsShowReplies(false)}
+          ></div>
+        </div>
+      )}
     </div>
   );
 };

@@ -3,13 +3,9 @@ interface IPage {
   path: string;
 }
 
-interface IPagesMap {
-  home: IPage;
-  comments: IPage;
-  productCards: IPage;
-}
+type Keys = 'home' | 'comments' | 'productCards';
 
-export const PAGES_MAP: IPagesMap = {
+export const PAGES_MAP: Record<Keys, IPage> = {
   home: {
     path: '',
   },

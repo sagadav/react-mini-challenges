@@ -5,7 +5,7 @@ const ProductItem = () => {
   return (
     <div
       onClick={() => setIsClicked(true)}
-      className={`p-item ${isClicked ? 'p-ac' : ''}`}
+      className={`p-item ${isClicked ? '' : ''}`}
     >
       Product
     </div>
