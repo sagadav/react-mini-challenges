@@ -1,11 +1,13 @@
-interface IPage {
+interface Page {
   navLabel?: string;
   path: string;
 }
 
-type Keys = 'home' | 'comments' | 'productCards';
+const typeForPagesMap = <T>(
+  obj: Record<keyof T, Page>
+): Record<keyof T, Page> => obj;
 
-export const PAGES_MAP: Record<Keys, IPage> = {
+export const PAGES_MAP = typeForPagesMap({
   home: {
     path: '',
   },
@@ -17,4 +19,4 @@ export const PAGES_MAP: Record<Keys, IPage> = {
     navLabel: 'Product Cards',
     path: 'product-cards',
   },
-};
+});
