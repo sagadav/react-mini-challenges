@@ -5,4 +5,6 @@ npm ci
 npm run dev
 ```
 
-Comment structure
+Comments structure:  
+[folder](src/features/comments/)  
+[demo](http://localhost:5173/react-mini-challenges/#/comments)
