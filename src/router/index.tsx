@@ -4,7 +4,7 @@ import Layout from '@/components/layout/layout';
 import CommentsPage from '@/pages/comments';
 import HomePage from '@/pages/home';
 import ProductCardsPage from '@/pages/product-cards';
-import TestPage from '@/pages/test';
+import TestPage from '@/pages/test-page';
 import { PAGES_MAP } from './paths';
 
 export const router = createHashRouter(
